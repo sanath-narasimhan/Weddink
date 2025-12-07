@@ -4,7 +4,7 @@ requests==2.31.0
 torch
 torchvision
 open-clip-torch
-Pillow==10.1.0
+Pillow>=10.3.0
 apify-client==1.6.3
 numpy==1.26.2
 pandas==2.1.3
