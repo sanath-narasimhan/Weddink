@@ -1,0 +1,254 @@
+[
+  {
+    "source_image": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Engagement\\provided_sample\\provided_sample_1125968650575907_sample_3.jpg",
+    "source_price_category": "\u20b93000-\u20b95000",
+    "source_event_type": "engagement",
+    "similar_images": [
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(5001-8000)\\Reception\\provided_sample\\provided_sample_2181499816363661_sample_26.jpg",
+        "similarity_score": 0.7939152121543884,
+        "price_category": "\u20b95001-\u20b98000",
+        "event_type": "reception",
+        "filename": "provided_sample_2181499816363661_sample_26.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Wedding\\provided_sample\\provided_sample_11329436558610714_sample_10.jpg",
+        "similarity_score": 0.7916659116744995,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "wedding",
+        "filename": "provided_sample_11329436558610714_sample_10.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Wedding\\provided_sample\\provided_sample_11329436558610714_sample_11.jpg",
+        "similarity_score": 0.7916659116744995,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "wedding",
+        "filename": "provided_sample_11329436558610714_sample_11.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Reception\\provided_sample\\provided_sample_351912460487850_sample_13.jpg",
+        "similarity_score": 0.7840348482131958,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "reception",
+        "filename": "provided_sample_351912460487850_sample_13.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(5001-8000)\\Reception\\provided_sample\\provided_sample_315885361384356727_sample_27.jpg",
+        "similarity_score": 0.7569993138313293,
+        "price_category": "\u20b95001-\u20b98000",
+        "event_type": "reception",
+        "filename": "provided_sample_315885361384356727_sample_27.jpg"
+      }
+    ]
+  },
+  {
+    "source_image": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Haldi\\provided_sample\\provided_sample_314126142780295265_sample_5.jpg",
+    "source_price_category": "\u20b93000-\u20b95000",
+    "source_event_type": "haldi",
+    "similar_images": [
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Mehendi\\provided_sample\\provided_sample_580964420722069010_sample_7.jpg",
+        "similarity_score": 0.7461027503013611,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "mehendi",
+        "filename": "provided_sample_580964420722069010_sample_7.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Mehendi\\provided_sample\\provided_sample_157907530678251508_sample_6.jpg",
+        "similarity_score": 0.7099460959434509,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "mehendi",
+        "filename": "provided_sample_157907530678251508_sample_6.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Sangeet\\provided_sample\\provided_sample_1548181180293284_sample_8.jpg",
+        "similarity_score": 0.7074323892593384,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "sangeet",
+        "filename": "provided_sample_1548181180293284_sample_8.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(5001-8000)\\Engagement\\provided_sample\\provided_sample_862580134920144655_sample_17.jpg",
+        "similarity_score": 0.7028030157089233,
+        "price_category": "\u20b95001-\u20b98000",
+        "event_type": "engagement",
+        "filename": "provided_sample_862580134920144655_sample_17.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(5001-8000)\\Mehendi\\provided_sample\\provided_sample_21040323253647943_sample_21.jpg",
+        "similarity_score": 0.6986415386199951,
+        "price_category": "\u20b95001-\u20b98000",
+        "event_type": "mehendi",
+        "filename": "provided_sample_21040323253647943_sample_21.jpg"
+      }
+    ]
+  },
+  {
+    "source_image": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Mehendi\\provided_sample\\provided_sample_157907530678251508_sample_6.jpg",
+    "source_price_category": "\u20b93000-\u20b95000",
+    "source_event_type": "mehendi",
+    "similar_images": [
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(5001-8000)\\Engagement\\provided_sample\\provided_sample_862580134920144655_sample_17.jpg",
+        "similarity_score": 0.7752372026443481,
+        "price_category": "\u20b95001-\u20b98000",
+        "event_type": "engagement",
+        "filename": "provided_sample_862580134920144655_sample_17.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(5001-8000)\\Haldi\\provided_sample\\provided_sample_31947478603475362_sample_18.jpg",
+        "similarity_score": 0.7607035636901855,
+        "price_category": "\u20b95001-\u20b98000",
+        "event_type": "haldi",
+        "filename": "provided_sample_31947478603475362_sample_18.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(8001-15000)\\Haldi\\provided_sample\\provided_sample_31947478602807053_sample_33.jpg",
+        "similarity_score": 0.7386747598648071,
+        "price_category": "\u20b98001-\u20b915000",
+        "event_type": "haldi",
+        "filename": "provided_sample_31947478602807053_sample_33.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(8001-15000)\\Wedding\\provided_sample\\provided_sample_15762667442993033_sample_39.jpg",
+        "similarity_score": 0.7352892756462097,
+        "price_category": "\u20b98001-\u20b915000",
+        "event_type": "wedding",
+        "filename": "provided_sample_15762667442993033_sample_39.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Engagement\\provided_sample\\provided_sample_767160117806945921_sample_2.jpg",
+        "similarity_score": 0.7324350476264954,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "engagement",
+        "filename": "provided_sample_767160117806945921_sample_2.jpg"
+      }
+    ]
+  },
+  {
+    "source_image": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Reception\\provided_sample\\provided_sample_28569778880889322_sample_12.jpg",
+    "source_price_category": "\u20b93000-\u20b95000",
+    "source_event_type": "reception",
+    "similar_images": [
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Wedding\\provided_sample\\provided_sample_11329436558610714_sample_10.jpg",
+        "similarity_score": 0.7124480605125427,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "wedding",
+        "filename": "provided_sample_11329436558610714_sample_10.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Wedding\\provided_sample\\provided_sample_11329436558610714_sample_11.jpg",
+        "similarity_score": 0.7124480605125427,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "wedding",
+        "filename": "provided_sample_11329436558610714_sample_11.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Sangeet\\provided_sample\\provided_sample_1548181180293284_sample_8.jpg",
+        "similarity_score": 0.7043797969818115,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "sangeet",
+        "filename": "provided_sample_1548181180293284_sample_8.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(5001-8000)\\Engagement\\provided_sample\\provided_sample_862580134920144655_sample_17.jpg",
+        "similarity_score": 0.681463360786438,
+        "price_category": "\u20b95001-\u20b98000",
+        "event_type": "engagement",
+        "filename": "provided_sample_862580134920144655_sample_17.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Engagement\\provided_sample\\provided_sample_1125968650575907_sample_3.jpg",
+        "similarity_score": 0.6685131192207336,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "engagement",
+        "filename": "provided_sample_1125968650575907_sample_3.jpg"
+      }
+    ]
+  },
+  {
+    "source_image": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Sangeet\\provided_sample\\provided_sample_1548181180293284_sample_8.jpg",
+    "source_price_category": "\u20b93000-\u20b95000",
+    "source_event_type": "sangeet",
+    "similar_images": [
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(8001-15000)\\Engagement\\provided_sample\\provided_sample_304204149851329628_sample_30.jpg",
+        "similarity_score": 0.7814823389053345,
+        "price_category": "\u20b98001-\u20b915000",
+        "event_type": "engagement",
+        "filename": "provided_sample_304204149851329628_sample_30.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Engagement\\provided_sample\\provided_sample_767160117806945921_sample_2.jpg",
+        "similarity_score": 0.7794420719146729,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "engagement",
+        "filename": "provided_sample_767160117806945921_sample_2.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(5001-8000)\\Engagement\\provided_sample\\provided_sample_862580134920144655_sample_17.jpg",
+        "similarity_score": 0.776787519454956,
+        "price_category": "\u20b95001-\u20b98000",
+        "event_type": "engagement",
+        "filename": "provided_sample_862580134920144655_sample_17.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(8001-15000)\\Wedding\\provided_sample\\provided_sample_15762667442993033_sample_39.jpg",
+        "similarity_score": 0.7527051568031311,
+        "price_category": "\u20b98001-\u20b915000",
+        "event_type": "wedding",
+        "filename": "provided_sample_15762667442993033_sample_39.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(5001-8000)\\Haldi\\provided_sample\\provided_sample_31947478603475362_sample_18.jpg",
+        "similarity_score": 0.7480143904685974,
+        "price_category": "\u20b95001-\u20b98000",
+        "event_type": "haldi",
+        "filename": "provided_sample_31947478603475362_sample_18.jpg"
+      }
+    ]
+  },
+  {
+    "source_image": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Wedding\\provided_sample\\provided_sample_11329436558610714_sample_10.jpg",
+    "source_price_category": "\u20b93000-\u20b95000",
+    "source_event_type": "wedding",
+    "similar_images": [
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Engagement\\provided_sample\\provided_sample_1125968650575907_sample_3.jpg",
+        "similarity_score": 0.7916659116744995,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "engagement",
+        "filename": "provided_sample_1125968650575907_sample_3.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(5001-8000)\\Reception\\provided_sample\\provided_sample_2181499816363661_sample_26.jpg",
+        "similarity_score": 0.7465969920158386,
+        "price_category": "\u20b95001-\u20b98000",
+        "event_type": "reception",
+        "filename": "provided_sample_2181499816363661_sample_26.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Reception\\provided_sample\\provided_sample_351912460487850_sample_13.jpg",
+        "similarity_score": 0.7269847989082336,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "reception",
+        "filename": "provided_sample_351912460487850_sample_13.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(3000-5000)\\Reception\\provided_sample\\provided_sample_28569778880889322_sample_12.jpg",
+        "similarity_score": 0.7124480605125427,
+        "price_category": "\u20b93000-\u20b95000",
+        "event_type": "reception",
+        "filename": "provided_sample_28569778880889322_sample_12.jpg"
+      },
+      {
+        "image_path": "downloaded_images\\Welcome_board_decor_(8001-15000)\\Mehendi\\provided_sample\\provided_sample_8514686791014760_sample_34.jpg",
+        "similarity_score": 0.7118018865585327,
+        "price_category": "\u20b98001-\u20b915000",
+        "event_type": "mehendi",
+        "filename": "provided_sample_8514686791014760_sample_34.jpg"
+      }
+    ]
+  }
+]

@@ -1,0 +1,52 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║                  PINTEREST SEARCH NOT WORKING?                       ║
+║                    QUICK FIX - 2 MINUTES                            ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+ISSUE: Pinterest returns 0 results, Google works fine
+
+DIAGNOSIS:
+  ✅ apify-client library: INSTALLED
+  ❌ APIFY_API_TOKEN: NOT SET ← This is the problem!
+
+═══════════════════════════════════════════════════════════════════════
+
+QUICK FIX (Copy & Paste):
+
+1. Get token from: https://console.apify.com/account/integrations
+
+2. Set token (replace YOUR_TOKEN with actual token):
+   
+   export APIFY_API_TOKEN='YOUR_TOKEN'
+
+3. Verify:
+   
+   python3 test_apify_setup.py
+
+4. Restart app:
+   
+   python3 frontend.py
+
+═══════════════════════════════════════════════════════════════════════
+
+EXAMPLE:
+
+Terminal 1 (Set token & verify):
+  $ export APIFY_API_TOKEN='apify_api_abc123xyz'
+  $ python3 test_apify_setup.py
+  ✅ All checks passed!
+
+Terminal 2 (Start app):
+  $ python3 frontend.py
+  * Running on http://localhost:5000
+
+Browser:
+  → http://localhost:5000/data-collection
+  → Fill form and search
+  → Pinterest results now appear!
+
+═══════════════════════════════════════════════════════════════════════
+
+For detailed guide: cat APIFY_SETUP_GUIDE.md
+
+

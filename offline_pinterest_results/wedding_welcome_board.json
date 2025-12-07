@@ -1,0 +1,25 @@
+{
+  "query": "wedding welcome board",
+  "saved_at": "2025-10-29T14:56:42.242206",
+  "total_results": 2,
+  "results": [
+    {
+      "pin_id": "123456789",
+      "pin_url": "https://www.pinterest.com/pin/123456789/",
+      "image_url": "https://i.pinimg.com/originals/ab/cd/ef/abcdef123456.jpg",
+      "title": "Beautiful Wedding Welcome Board",
+      "description": "Elegant acrylic welcome board with gold calligraphy",
+      "creator": "weddingdecor",
+      "saves": 142
+    },
+    {
+      "pin_id": "987654321",
+      "pin_url": "https://www.pinterest.com/pin/987654321/",
+      "image_url": "https://i.pinimg.com/originals/12/34/56/123456abcdef.jpg",
+      "title": "Rustic Welcome Sign for Wedding",
+      "description": "Wooden welcome sign with floral arrangements",
+      "creator": "rusticweddings",
+      "saves": 89
+    }
+  ]
+}

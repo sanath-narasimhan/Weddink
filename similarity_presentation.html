@@ -1,0 +1,558 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Board Similarity Search Results</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .summary h2 {
+            color: #495057;
+            margin: 0 0 10px 0;
+        }
+        .summary-stats {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        .results {
+            padding: 30px;
+        }
+        .event-section {
+            margin-bottom: 40px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .event-header {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+        }
+        .event-title {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .event-meta {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+        }
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .image-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .image-card:hover {
+            transform: translateY(-5px);
+        }
+        .image-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .image-info {
+            padding: 15px;
+        }
+        .image-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2d3436;
+        }
+        .similarity-score {
+            background: #00b894;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        .image-meta {
+            font-size: 0.9em;
+            color: #636e72;
+        }
+        .source-image {
+            border: 3px solid #ff6b6b;
+        }
+        .source-label {
+            background: #ff6b6b;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            margin-left: 5px;
+        }
+        .footer {
+            background: #2d3436;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Welcome Board Similarity Search</h1>
+            <p>AI-Powered Visual Similarity Analysis</p>
+        </div>
+        
+        <div class="summary">
+            <h2>📊 Search Summary</h2>
+            <div class="summary-stats">
+                <div class="stat">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Event Types Analyzed</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">30</div>
+                    <div class="stat-label">Similar Images Found</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">70-80%</div>
+                    <div class="stat-label">Average Similarity</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results">
+
+            <div class="event-section">
+                <div class="event-header">
+                    <h3 class="event-title">Engagement Welcome Boards</h3>
+                    <p class="event-meta">Price Range: ₹3000-₹5000 | Found 5 similar designs</p>
+                </div>
+                <div class="images-grid">
+                    <div class="image-card source-image">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Engagement\provided_sample\provided_sample_1125968650575907_sample_3.jpg" alt="Source Image">
+                        <div class="image-info">
+                            <div class="image-title">Source Image<span class="source-label">ORIGINAL</span></div>
+                            <div class="image-meta">provided_sample_1125968650575907_sample_3.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(5001-8000)\Reception\provided_sample\provided_sample_2181499816363661_sample_26.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">79.4% Similar</div>
+                            <div class="image-title">Reception Design</div>
+                            <div class="image-meta">₹5001-₹8000<br>provided_sample_2181499816363661_sample_26.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Wedding\provided_sample\provided_sample_11329436558610714_sample_10.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">79.2% Similar</div>
+                            <div class="image-title">Wedding Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_11329436558610714_sample_10.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Wedding\provided_sample\provided_sample_11329436558610714_sample_11.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">79.2% Similar</div>
+                            <div class="image-title">Wedding Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_11329436558610714_sample_11.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Reception\provided_sample\provided_sample_351912460487850_sample_13.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">78.4% Similar</div>
+                            <div class="image-title">Reception Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_351912460487850_sample_13.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(5001-8000)\Reception\provided_sample\provided_sample_315885361384356727_sample_27.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">75.7% Similar</div>
+                            <div class="image-title">Reception Design</div>
+                            <div class="image-meta">₹5001-₹8000<br>provided_sample_315885361384356727_sample_27.jpg</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="event-section">
+                <div class="event-header">
+                    <h3 class="event-title">Haldi Welcome Boards</h3>
+                    <p class="event-meta">Price Range: ₹3000-₹5000 | Found 5 similar designs</p>
+                </div>
+                <div class="images-grid">
+                    <div class="image-card source-image">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Haldi\provided_sample\provided_sample_314126142780295265_sample_5.jpg" alt="Source Image">
+                        <div class="image-info">
+                            <div class="image-title">Source Image<span class="source-label">ORIGINAL</span></div>
+                            <div class="image-meta">provided_sample_314126142780295265_sample_5.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Mehendi\provided_sample\provided_sample_580964420722069010_sample_7.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">74.6% Similar</div>
+                            <div class="image-title">Mehendi Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_580964420722069010_sample_7.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Mehendi\provided_sample\provided_sample_157907530678251508_sample_6.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">71.0% Similar</div>
+                            <div class="image-title">Mehendi Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_157907530678251508_sample_6.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Sangeet\provided_sample\provided_sample_1548181180293284_sample_8.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">70.7% Similar</div>
+                            <div class="image-title">Sangeet Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_1548181180293284_sample_8.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(5001-8000)\Engagement\provided_sample\provided_sample_862580134920144655_sample_17.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">70.3% Similar</div>
+                            <div class="image-title">Engagement Design</div>
+                            <div class="image-meta">₹5001-₹8000<br>provided_sample_862580134920144655_sample_17.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(5001-8000)\Mehendi\provided_sample\provided_sample_21040323253647943_sample_21.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">69.9% Similar</div>
+                            <div class="image-title">Mehendi Design</div>
+                            <div class="image-meta">₹5001-₹8000<br>provided_sample_21040323253647943_sample_21.jpg</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="event-section">
+                <div class="event-header">
+                    <h3 class="event-title">Mehendi Welcome Boards</h3>
+                    <p class="event-meta">Price Range: ₹3000-₹5000 | Found 5 similar designs</p>
+                </div>
+                <div class="images-grid">
+                    <div class="image-card source-image">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Mehendi\provided_sample\provided_sample_157907530678251508_sample_6.jpg" alt="Source Image">
+                        <div class="image-info">
+                            <div class="image-title">Source Image<span class="source-label">ORIGINAL</span></div>
+                            <div class="image-meta">provided_sample_157907530678251508_sample_6.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(5001-8000)\Engagement\provided_sample\provided_sample_862580134920144655_sample_17.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">77.5% Similar</div>
+                            <div class="image-title">Engagement Design</div>
+                            <div class="image-meta">₹5001-₹8000<br>provided_sample_862580134920144655_sample_17.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(5001-8000)\Haldi\provided_sample\provided_sample_31947478603475362_sample_18.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">76.1% Similar</div>
+                            <div class="image-title">Haldi Design</div>
+                            <div class="image-meta">₹5001-₹8000<br>provided_sample_31947478603475362_sample_18.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(8001-15000)\Haldi\provided_sample\provided_sample_31947478602807053_sample_33.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">73.9% Similar</div>
+                            <div class="image-title">Haldi Design</div>
+                            <div class="image-meta">₹8001-₹15000<br>provided_sample_31947478602807053_sample_33.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(8001-15000)\Wedding\provided_sample\provided_sample_15762667442993033_sample_39.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">73.5% Similar</div>
+                            <div class="image-title">Wedding Design</div>
+                            <div class="image-meta">₹8001-₹15000<br>provided_sample_15762667442993033_sample_39.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Engagement\provided_sample\provided_sample_767160117806945921_sample_2.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">73.2% Similar</div>
+                            <div class="image-title">Engagement Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_767160117806945921_sample_2.jpg</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="event-section">
+                <div class="event-header">
+                    <h3 class="event-title">Reception Welcome Boards</h3>
+                    <p class="event-meta">Price Range: ₹3000-₹5000 | Found 5 similar designs</p>
+                </div>
+                <div class="images-grid">
+                    <div class="image-card source-image">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Reception\provided_sample\provided_sample_28569778880889322_sample_12.jpg" alt="Source Image">
+                        <div class="image-info">
+                            <div class="image-title">Source Image<span class="source-label">ORIGINAL</span></div>
+                            <div class="image-meta">provided_sample_28569778880889322_sample_12.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Wedding\provided_sample\provided_sample_11329436558610714_sample_10.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">71.2% Similar</div>
+                            <div class="image-title">Wedding Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_11329436558610714_sample_10.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Wedding\provided_sample\provided_sample_11329436558610714_sample_11.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">71.2% Similar</div>
+                            <div class="image-title">Wedding Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_11329436558610714_sample_11.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Sangeet\provided_sample\provided_sample_1548181180293284_sample_8.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">70.4% Similar</div>
+                            <div class="image-title">Sangeet Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_1548181180293284_sample_8.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(5001-8000)\Engagement\provided_sample\provided_sample_862580134920144655_sample_17.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">68.1% Similar</div>
+                            <div class="image-title">Engagement Design</div>
+                            <div class="image-meta">₹5001-₹8000<br>provided_sample_862580134920144655_sample_17.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Engagement\provided_sample\provided_sample_1125968650575907_sample_3.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">66.9% Similar</div>
+                            <div class="image-title">Engagement Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_1125968650575907_sample_3.jpg</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="event-section">
+                <div class="event-header">
+                    <h3 class="event-title">Sangeet Welcome Boards</h3>
+                    <p class="event-meta">Price Range: ₹3000-₹5000 | Found 5 similar designs</p>
+                </div>
+                <div class="images-grid">
+                    <div class="image-card source-image">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Sangeet\provided_sample\provided_sample_1548181180293284_sample_8.jpg" alt="Source Image">
+                        <div class="image-info">
+                            <div class="image-title">Source Image<span class="source-label">ORIGINAL</span></div>
+                            <div class="image-meta">provided_sample_1548181180293284_sample_8.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(8001-15000)\Engagement\provided_sample\provided_sample_304204149851329628_sample_30.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">78.1% Similar</div>
+                            <div class="image-title">Engagement Design</div>
+                            <div class="image-meta">₹8001-₹15000<br>provided_sample_304204149851329628_sample_30.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Engagement\provided_sample\provided_sample_767160117806945921_sample_2.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">77.9% Similar</div>
+                            <div class="image-title">Engagement Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_767160117806945921_sample_2.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(5001-8000)\Engagement\provided_sample\provided_sample_862580134920144655_sample_17.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">77.7% Similar</div>
+                            <div class="image-title">Engagement Design</div>
+                            <div class="image-meta">₹5001-₹8000<br>provided_sample_862580134920144655_sample_17.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(8001-15000)\Wedding\provided_sample\provided_sample_15762667442993033_sample_39.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">75.3% Similar</div>
+                            <div class="image-title">Wedding Design</div>
+                            <div class="image-meta">₹8001-₹15000<br>provided_sample_15762667442993033_sample_39.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(5001-8000)\Haldi\provided_sample\provided_sample_31947478603475362_sample_18.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">74.8% Similar</div>
+                            <div class="image-title">Haldi Design</div>
+                            <div class="image-meta">₹5001-₹8000<br>provided_sample_31947478603475362_sample_18.jpg</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="event-section">
+                <div class="event-header">
+                    <h3 class="event-title">Wedding Welcome Boards</h3>
+                    <p class="event-meta">Price Range: ₹3000-₹5000 | Found 5 similar designs</p>
+                </div>
+                <div class="images-grid">
+                    <div class="image-card source-image">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Wedding\provided_sample\provided_sample_11329436558610714_sample_10.jpg" alt="Source Image">
+                        <div class="image-info">
+                            <div class="image-title">Source Image<span class="source-label">ORIGINAL</span></div>
+                            <div class="image-meta">provided_sample_11329436558610714_sample_10.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Engagement\provided_sample\provided_sample_1125968650575907_sample_3.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">79.2% Similar</div>
+                            <div class="image-title">Engagement Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_1125968650575907_sample_3.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(5001-8000)\Reception\provided_sample\provided_sample_2181499816363661_sample_26.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">74.7% Similar</div>
+                            <div class="image-title">Reception Design</div>
+                            <div class="image-meta">₹5001-₹8000<br>provided_sample_2181499816363661_sample_26.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Reception\provided_sample\provided_sample_351912460487850_sample_13.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">72.7% Similar</div>
+                            <div class="image-title">Reception Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_351912460487850_sample_13.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(3000-5000)\Reception\provided_sample\provided_sample_28569778880889322_sample_12.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">71.2% Similar</div>
+                            <div class="image-title">Reception Design</div>
+                            <div class="image-meta">₹3000-₹5000<br>provided_sample_28569778880889322_sample_12.jpg</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="file://X:\WEDDink\downloaded_images\Welcome_board_decor_(8001-15000)\Mehendi\provided_sample\provided_sample_8514686791014760_sample_34.jpg" alt="Similar Image">
+                        <div class="image-info">
+                            <div class="similarity-score">71.2% Similar</div>
+                            <div class="image-title">Mehendi Design</div>
+                            <div class="image-meta">₹8001-₹15000<br>provided_sample_8514686791014760_sample_34.jpg</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="footer">
+            <p>Generated by AI-Powered Similarity Search | Using CLIP Visual Embeddings</p>
+        </div>
+    </div>
+</body>
+</html>

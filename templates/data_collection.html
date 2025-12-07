@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Collection - WEDDink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .nav-buttons {
+            padding: 20px;
+            background: #f8f9fa;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: white;
+            color: #185a9d;
+            border: 2px solid #185a9d;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #185a9d;
+            color: white;
+        }
+
+        .stats-section {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #185a9d;
+        }
+
+        .stat-label {
+            margin-top: 8px;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .scrape-section {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #74b9ff;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .search-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #185a9d;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .results-section {
+            padding: 30px;
+            display: none;
+        }
+
+        .source-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            border-bottom-color: #43cea2;
+            color: #185a9d;
+        }
+
+        .tab:hover {
+            color: #43cea2;
+        }
+
+        .source-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .source-stats {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .source-stats h3 {
+            margin-bottom: 15px;
+            color: #2d3436;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label-inline {
+            font-weight: normal;
+            color: #6c757d;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .results-info {
+            font-size: 1.1em;
+            color: #2d3436;
+        }
+
+        .selection-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .small-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .small-btn:hover {
+            background: #2980b9;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .download-btn:hover {
+            opacity: 0.9;
+        }
+
+        .download-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .result-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .result-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .result-card.selected {
+            border-color: #43cea2;
+            box-shadow: 0 8px 20px rgba(67, 206, 162, 0.3);
+        }
+
+        .result-image-container {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            background: #f8f9fa;
+            overflow: hidden;
+        }
+
+        .result-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .similarity-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(67, 206, 162, 0.95);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .source-badge {
+            position: absolute;
+            top: 10px;
+            left: 50px;
+            background: rgba(24, 90, 157, 0.95);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .checkbox-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .checkbox-overlay input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .result-info {
+            padding: 15px;
+        }
+
+        .result-title {
+            font-weight: bold;
+            color: #2d3436;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .result-meta {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            margin-top: 8px;
+        }
+
+        .best-match {
+            background: #e8f5e9;
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 8px;
+            font-size: 0.8em;
+        }
+
+        .best-match-label {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .error {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #28a745;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Unified Search & Data Collection</h1>
+            <p>Search Google (25 results) + Pinterest (100 results) with AI similarity ranking</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="/" class="nav-btn">🏠 Main Search</a>
+            <a href="/data-collection" class="nav-btn">📊 Data Collection</a>
+            <button class="nav-btn" onclick="loadStats()">🔄 Refresh Stats</button>
+        </div>
+
+        <div class="stats-section">
+            <h2>📈 Database Statistics</h2>
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalImages">--</div>
+                    <div class="stat-label">Total Images</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="providedSamples">--</div>
+                    <div class="stat-label">Provided Samples</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="userSelected">--</div>
+                    <div class="stat-label">User Selected</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scrape-section">
+            <h2>🔍 Unified Search: Google + Pinterest</h2>
+
+            <form id="searchForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Event Type</label>
+                        <select id="eventType" required>
+                            <option value="">Select Event</option>
+                            <option value="engagement">Engagement</option>
+                            <option value="haldi">Haldi</option>
+                            <option value="mehendi">Mehendi</option>
+                            <option value="sangeet">Sangeet</option>
+                            <option value="wedding">Wedding</option>
+                            <option value="reception">Reception</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Budget Range</label>
+                        <select id="budgetRange" required>
+                            <option value="">Select Budget</option>
+                            <option value="3000-5000">₹3000 - ₹5000</option>
+                            <option value="5001-8000">₹5001 - ₹8000</option>
+                            <option value="8001-15000">₹8001 - ₹15000</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Color Theme</label>
+                        <input type="text" id="colorTheme" placeholder="e.g., pastel, bold, gold white" required>
+                    </div>
+                </div>
+
+                <div class="search-options">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="includeGoogle" checked>
+                        <label for="includeGoogle">Google Images (max 25 results)</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="includePinterest" checked>
+                        <label for="includePinterest">Pinterest (max 100 results via Apify)</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="searchBtn">
+                    🚀 Search & Rank by Similarity
+                </button>
+            </form>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 20px; font-size: 1.1em; color: #2d3436;">
+                Searching and ranking by similarity...<br>
+                <span style="font-size: 0.9em; color: #7f8c8d;">This may take 1-3 minutes</span>
+            </p>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <!-- Source Comparison Stats -->
+            <div class="source-comparison">
+                <div class="source-stats">
+                    <h3>📊 Google Results</h3>
+                    <div class="stat-row">
+                        <span class="stat-label-inline">Total Results:</span>
+                        <span class="stat-value" id="googleTotal">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label-inline">Avg Similarity:</span>
+                        <span class="stat-value" id="googleAvg">0%</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label-inline">Top Similarity:</span>
+                        <span class="stat-value" id="googleTop">0%</span>
+                    </div>
+                </div>
+
+                <div class="source-stats">
+                    <h3>📌 Pinterest Results</h3>
+                    <div class="stat-row">
+                        <span class="stat-label-inline">Total Results:</span>
+                        <span class="stat-value" id="pinterestTotal">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label-inline">Avg Similarity:</span>
+                        <span class="stat-value" id="pinterestAvg">0%</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label-inline">Top Similarity:</span>
+                        <span class="stat-value" id="pinterestTop">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Source Tabs -->
+            <div class="source-tabs">
+                <button class="tab active" onclick="switchTab('all')">All Results (<span
+                        id="allCount">0</span>)</button>
+                <button class="tab" onclick="switchTab('google')">Google (<span id="googleCount">0</span>)</button>
+                <button class="tab" onclick="switchTab('pinterest')">Pinterest (<span
+                        id="pinterestCount">0</span>)</button>
+            </div>
+
+            <!-- Selection Controls -->
+            <div class="results-header">
+                <div class="results-info">
+                    <strong id="selectedCount" style="color: #43cea2;">0 selected</strong>
+                </div>
+                <div class="selection-controls">
+                    <button class="small-btn" onclick="selectAll()">Select All</button>
+                    <button class="small-btn" onclick="deselectAll()">Deselect All</button>
+                    <button class="download-btn" id="downloadBtn" onclick="downloadSelected()" disabled>
+                        💾 Download Selected
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Grid Tabs -->
+            <div id="tabAll" class="tab-content active">
+                <div class="results-grid" id="resultsGridAll"></div>
+            </div>
+            <div id="tabGoogle" class="tab-content">
+                <div class="results-grid" id="resultsGridGoogle"></div>
+            </div>
+            <div id="tabPinterest" class="tab-content">
+                <div class="results-grid" id="resultsGridPinterest"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allResults = [];
+        let currentEventType = '';
+        let currentBudgetRange = '';
+
+        // Load database statistics on page load
+        window.addEventListener('DOMContentLoaded', loadStats);
+
+        async function loadStats() {
+            try {
+                const response = await fetch('/database-stats');
+                const data = await response.json();
+
+                if (data.success) {
+                    const stats = data.stats;
+                    document.getElementById('totalImages').textContent = stats.total_images;
+                    document.getElementById('providedSamples').textContent = stats.by_source.provided_sample || 0;
+                    document.getElementById('userSelected').textContent = stats.by_source.user_selected || 0;
+                }
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const eventType = document.getElementById('eventType').value;
+            const budgetRange = document.getElementById('budgetRange').value;
+            const colorTheme = document.getElementById('colorTheme').value;
+            const includeGoogle = document.getElementById('includeGoogle').checked;
+            const includePinterest = document.getElementById('includePinterest').checked;
+
+            currentEventType = eventType;
+            currentBudgetRange = budgetRange;
+
+            // Show loading
+            document.getElementById('searchBtn').disabled = true;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+
+            try {
+                const response = await fetch('/unified-search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        event_type: eventType,
+                        budget_range: budgetRange,
+                        color_theme: colorTheme,
+                        max_google_results: 25,
+                        max_pinterest_results: 100,
+                        include_google: includeGoogle,
+                        include_pinterest: includePinterest
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayResults(data);
+
+                    // Show notification if images were filtered
+                    if (data.filtered_downloaded > 0) {
+                        showSuccess(`ℹ️ ${data.filtered_downloaded} previously downloaded images were filtered from results`);
+                    }
+                } else {
+                    showError(data.error || 'Search failed');
+                }
+            } catch (error) {
+                showError('Network error: ' + error.message);
+            } finally {
+                document.getElementById('searchBtn').disabled = false;
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+
+        function displayResults(data) {
+            const resultsSection = document.getElementById('resultsSection');
+
+            // Update source stats
+            document.getElementById('googleTotal').textContent = data.google.total_results;
+            document.getElementById('googleAvg').textContent = (data.google.avg_similarity * 100).toFixed(1) + '%';
+            document.getElementById('googleTop').textContent = (data.google.top_similarity * 100).toFixed(1) + '%';
+
+            document.getElementById('pinterestTotal').textContent = data.pinterest.total_results;
+            document.getElementById('pinterestAvg').textContent = (data.pinterest.avg_similarity * 100).toFixed(1) + '%';
+            document.getElementById('pinterestTop').textContent = (data.pinterest.top_similarity * 100).toFixed(1) + '%';
+
+            // Combine all results
+            allResults = [
+                ...data.google.results.map(r => ({ ...r, display_source: 'google' })),
+                ...data.pinterest.results.map(r => ({ ...r, display_source: 'pinterest' }))
+            ];
+
+            // Update counts
+            document.getElementById('allCount').textContent = allResults.length;
+            document.getElementById('googleCount').textContent = data.google.total_results;
+            document.getElementById('pinterestCount').textContent = data.pinterest.total_results;
+
+            // Clear grids
+            document.getElementById('resultsGridAll').innerHTML = '';
+            document.getElementById('resultsGridGoogle').innerHTML = '';
+            document.getElementById('resultsGridPinterest').innerHTML = '';
+
+            // Populate grids
+            allResults.forEach((result, index) => {
+                const card = createResultCard(result, index);
+                document.getElementById('resultsGridAll').appendChild(card.cloneNode(true));
+
+                if (result.display_source === 'google') {
+                    document.getElementById('resultsGridGoogle').appendChild(card.cloneNode(true));
+                } else {
+                    document.getElementById('resultsGridPinterest').appendChild(card.cloneNode(true));
+                }
+            });
+
+            resultsSection.style.display = 'block';
+            updateSelectedCount();
+        }
+
+        function createResultCard(result, index) {
+            const card = document.createElement('div');
+            card.className = 'result-card';
+            card.dataset.index = index;
+
+            const similarityPercent = (result.similarity_score * 100).toFixed(1);
+
+            card.innerHTML = `
+                <div class="result-image-container">
+                    <img src="${result.image_url}" 
+                         class="result-image" 
+                         alt="${result.title || 'Image'}"
+                         onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22280%22 height=%22220%22><rect fill=%22%23f8f9fa%22 width=%22280%22 height=%22220%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 fill=%22%237f8c8d%22>Image unavailable</text></svg>'">
+                    <div class="similarity-badge">
+                        ${similarityPercent}% match
+                    </div>
+                    <div class="source-badge">
+                        ${result.display_source}
+                    </div>
+                    <div class="checkbox-overlay">
+                        <input type="checkbox" onchange="toggleSelection(${index})" id="checkbox-${index}">
+                    </div>
+                </div>
+                <div class="result-info">
+                    <div class="result-title">${result.title || 'Untitled'}</div>
+                    ${result.display_source === 'pinterest' ? `
+                        <div class="result-meta">
+                            📌 Saves: ${result.saves || 0}
+                        </div>
+                    ` : ''}
+                    <div class="best-match">
+                        <span class="best-match-label">Best Match:</span><br>
+                        ${result.best_match.sample_event || 'N/A'} • ${result.best_match.sample_budget || 'N/A'}
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function toggleSelection(index) {
+            const cards = document.querySelectorAll(`[data-index="${index}"]`);
+            const checkbox = document.getElementById(`checkbox-${index}`);
+
+            cards.forEach(card => {
+                if (checkbox.checked) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+
+            updateSelectedCount();
+        }
+
+        function updateSelectedCount() {
+            const selected = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            document.getElementById('selectedCount').textContent = `${selected} selected`;
+            document.getElementById('downloadBtn').disabled = selected === 0;
+        }
+
+        function switchTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+        }
+
+        function selectAll() {
+            document.querySelectorAll('input[type="checkbox"]').forEach((cb, index) => {
+                cb.checked = true;
+                toggleSelection(index);
+            });
+        }
+
+        function deselectAll() {
+            document.querySelectorAll('input[type="checkbox"]').forEach((cb, index) => {
+                cb.checked = false;
+                toggleSelection(index);
+            });
+        }
+
+        async function downloadSelected() {
+            const selectedIndices = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                const index = parseInt(cb.id.split('-')[1]);
+                if (!selectedIndices.includes(index)) {
+                    selectedIndices.push(index);
+                }
+            });
+
+            if (selectedIndices.length === 0) {
+                alert('Please select at least one image');
+                return;
+            }
+
+            const selectedResults = selectedIndices.map(i => allResults[i]);
+
+            document.getElementById('downloadBtn').disabled = true;
+            document.getElementById('downloadBtn').textContent = '⏳ Downloading...';
+
+            try {
+                const response = await fetch('/download-selected-images', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        selected_results: selectedResults,
+                        event_type: currentEventType,
+                        budget_range: currentBudgetRange
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccess(`✅ Successfully downloaded ${data.downloaded} images! ${data.failed > 0 ? `(${data.failed} failed)` : ''}`);
+                    loadStats(); // Refresh stats
+                    deselectAll();
+                } else {
+                    showError('Download failed: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                showError('Network error: ' + error.message);
+            } finally {
+                document.getElementById('downloadBtn').disabled = false;
+                document.getElementById('downloadBtn').textContent = '💾 Download Selected';
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.innerHTML = `<strong>❌ Error:</strong> ${message}`;
+            document.querySelector('.scrape-section').appendChild(errorDiv);
+            setTimeout(() => errorDiv.remove(), 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success';
+            successDiv.innerHTML = message;
+            document.querySelector('.results-section').insertBefore(
+                successDiv,
+                document.querySelector('.results-section').firstChild
+            );
+            setTimeout(() => successDiv.remove(), 5000);
+        }
+    </script>
+</body>
+
+</html>

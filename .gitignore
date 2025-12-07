@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.log
+temp_requirements.txt
+debug_*.py
+test_*.py
+
+# Keep important data
+!data/.gitkeep
+!downloaded_images/.gitkeep
+
+# LEgacy and misc
+legacy_backup/
+scripts/
+tests/  
+
