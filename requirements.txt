@@ -3,7 +3,7 @@ Werkzeug==3.0.1
 requests==2.31.0
 torch
 torchvision
-open-clip-torch==2.23.0
+open-clip-torch
 Pillow==10.1.0
 apify-client==1.6.3
 numpy==1.26.2
