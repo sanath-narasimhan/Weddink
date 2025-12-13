@@ -39,7 +39,8 @@ class SimilarityRanker:
         try:
             model, _, preprocess = open_clip.create_model_and_transforms(
                 'ViT-B-32', 
-                pretrained='openai'
+                pretrained='openai',
+                force_quick_gelu=True
             )
             model.eval()
             self.model = model

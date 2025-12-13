@@ -981,7 +981,7 @@ def search_welcome_boards(event_type: str, budget_range: str, color_theme: str) 
     backend = get_backend()
     return backend.search_welcome_boards(event_type, budget_range, color_theme)
 
-def generate_mood_board_pdf(event_type: str, budget_range: str, color_theme: str) -> Dict:
+def generate_mood_board_pdf(event_type: str, budget_range: str, color_theme: str, selected_images: List[Dict] = None) -> Dict:
     """
     Generate a PDF mood board from search results.
     
@@ -989,6 +989,7 @@ def generate_mood_board_pdf(event_type: str, budget_range: str, color_theme: str
         event_type: engagement, haldi, mehendi, sangeet, wedding, reception
         budget_range: ₹3000-₹5000, ₹5001-₹8000, ₹8001-₹15000  
         color_theme: color names or hex codes like "red", "#ff0000", "blue white"
+        selected_images: Optional list of selected images to use directly
         
     Returns:
         Dict with PDF generation results
@@ -1000,8 +1001,26 @@ def generate_mood_board_pdf(event_type: str, budget_range: str, color_theme: str
             'pdf_path': None
         }
     
-    # Get search results first
-    search_results = search_welcome_boards(event_type, budget_range, color_theme)
+    if selected_images:
+        # Use provided images directly
+        search_results = {
+            'event_type': event_type,
+            'budget_range': budget_range,
+            'color_theme': color_theme,
+            'total_count': len(selected_images),
+            'query': 'User Selection',
+            'local_results': [img for img in selected_images if img.get('source') == 'local'],
+            'google_results': [img for img in selected_images if img.get('source') == 'google'],
+            'bing_results': [],
+            'pinterest_results': [img for img in selected_images if img.get('source') == 'pinterest']
+        }
+        # If sources aren't set, put everything in local or google as fallback
+        if not any([search_results['local_results'], search_results['google_results'], search_results['pinterest_results']]):
+             search_results['local_results'] = selected_images
+
+    else:
+        # Get search results first
+        search_results = search_welcome_boards(event_type, budget_range, color_theme)
     
     if search_results.get('total_count', 0) == 0:
         return {
@@ -1018,7 +1037,8 @@ def generate_mood_board_pdf(event_type: str, budget_range: str, color_theme: str
     result = {
         'search_results': search_results,
         'pdf_generation': pdf_result,
-        'success': pdf_result.get('success', False)
+        'success': pdf_result.get('success', False),
+        'filename': os.path.basename(pdf_result.get('pdf_path', '')) if pdf_result.get('pdf_path') else None
     }
     
     return result

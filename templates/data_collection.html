@@ -367,18 +367,27 @@
             box-shadow: 0 8px 20px rgba(67, 206, 162, 0.3);
         }
 
-        .result-image-container {
+        .image-container {
             position: relative;
             width: 100%;
-            height: 220px;
+            height: 250px;
+            /* Fixed height for alignment */
             background: #f8f9fa;
             overflow: hidden;
+            border-bottom: 1px solid #e9ecef;
         }
 
-        .result-image {
+        .image-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            /* Ensures image fills container without distortion */
+            transition: transform 0.3s ease;
+        }
+
+        .result-card:hover .image-container img {
+            transform: scale(1.05);
+            /* Subtle zoom effect on hover */
         }
 
         .similarity-badge {
@@ -477,6 +486,126 @@
         .tab-content.active {
             display: block;
         }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 0;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .source-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .results-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Search Options */
+            .search-options {
+                grid-template-columns: 1fr;
+            }
+
+            /* Results Header & Controls */
+            .results-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+
+            .results-info {
+                text-align: center;
+            }
+
+            .selection-controls {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .selection-controls button {
+                width: 100%;
+            }
+
+            /* Source Tabs */
+            .source-tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .tab {
+                flex: 1 1 auto;
+                text-align: center;
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            /* Fix Image Aspect Ratio on Mobile */
+            .image-container,
+            .result-image-container {
+                height: auto;
+                aspect-ratio: 4/3;
+            }
+        }
+
+        /* Collapsible Sections */
+        details {
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+        }
+
+        summary {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2d3436;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary:after {
+            content: '+';
+            font-size: 1.5em;
+            color: #185a9d;
+        }
+
+        details[open] summary:after {
+            content: '-';
+        }
+
+        details[open] summary {
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .details-content {
+            padding: 20px;
+        }
     </style>
 </head>
 
@@ -488,7 +617,7 @@
         </div>
 
         <div class="nav-buttons">
-            <a href="/" class="nav-btn">🏠 Main Search</a>
+            <a href="/" class="nav-btn">🏠PDF generator</a>
             <a href="/data-collection" class="nav-btn">📊 Data Collection</a>
             <button class="nav-btn" onclick="loadStats()">🔄 Refresh Stats</button>
         </div>
@@ -509,6 +638,18 @@
                     <div class="stat-label">User Selected</div>
                 </div>
             </div>
+        </div>
+
+        <div class="stats-section" style="border-top: 1px solid #dee2e6; margin-top: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>📂 Downloaded Gallery</h2>
+                <button class="nav-btn" onclick="viewDownloadedImages()" style="padding: 8px 16px; font-size: 14px;">
+                    View Images for Selected Criteria
+                </button>
+            </div>
+            <p style="color: #666; margin-bottom: 15px;">Select Event Type and Budget above, then click "View Images" to
+                see what's in the database.</p>
+            <div id="galleryGrid" class="results-grid"></div>
         </div>
 
         <div class="scrape-section">
@@ -540,8 +681,20 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Color Theme</label>
-                        <input type="text" id="colorTheme" placeholder="e.g., pastel, bold, gold white" required>
+                        <label for="colorTheme">Color Theme</label>
+                        <select id="colorTheme" required>
+                            <option value="">Select Color Theme</option>
+                            <option value="bold">Bold</option>
+                            <option value="pastel">Pastel</option>
+                            <option value="royal">Royal</option>
+                            <option value="neutral">Neutral</option>
+                            <option value="other">Other (Custom)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Colors (Max 3)</label>
+                        <input type="text" id="specificColors" placeholder="e.g., Red, Gold, White">
                     </div>
                 </div>
 
@@ -672,8 +825,22 @@
             const eventType = document.getElementById('eventType').value;
             const budgetRange = document.getElementById('budgetRange').value;
             const colorTheme = document.getElementById('colorTheme').value;
+            const specificColors = document.getElementById('specificColors').value;
             const includeGoogle = document.getElementById('includeGoogle').checked;
             const includePinterest = document.getElementById('includePinterest').checked;
+
+            // Combine theme and colors for the backend
+            let fullColorQuery = colorTheme;
+            if (colorTheme === 'other') {
+                fullColorQuery = specificColors;
+            } else if (specificColors) {
+                fullColorQuery = `${colorTheme} ${specificColors}`;
+            }
+
+            if (!fullColorQuery.trim()) {
+                alert('Please select a Color Theme or enter specific colors');
+                return;
+            }
 
             currentEventType = eventType;
             currentBudgetRange = budgetRange;
@@ -690,7 +857,7 @@
                     body: JSON.stringify({
                         event_type: eventType,
                         budget_range: budgetRange,
-                        color_theme: colorTheme,
+                        color_theme: fullColorQuery,
                         max_google_results: 25,
                         max_pinterest_results: 100,
                         include_google: includeGoogle,
@@ -770,7 +937,7 @@
             const similarityPercent = (result.similarity_score * 100).toFixed(1);
 
             card.innerHTML = `
-                <div class="result-image-container">
+                <div class="image-container">
                     <img src="${result.image_url}" 
                          class="result-image" 
                          alt="${result.title || 'Image'}"
@@ -911,6 +1078,87 @@
                 document.querySelector('.results-section').firstChild
             );
             setTimeout(() => successDiv.remove(), 5000);
+        }
+
+        async function viewDownloadedImages() {
+            const eventType = document.getElementById('eventType').value;
+            const budgetRange = document.getElementById('budgetRange').value;
+
+            if (!eventType || !budgetRange) {
+                alert('Please select Event Type and Budget Range first.');
+                return;
+            }
+
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '<div class="loading" style="display:block">Loading gallery...</div>';
+
+            try {
+                const response = await fetch('/api/local-search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        event_type: eventType,
+                        budget_range: budgetRange
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    grid.innerHTML = `<div class="error">${data.error}</div>`;
+                    return;
+                }
+
+                if (data.results.length === 0) {
+                    grid.innerHTML = '<div style="padding:20px; text-align:center; color:#666;">No images found for this category.</div>';
+                    return;
+                }
+
+                grid.innerHTML = ''; // Clear loading
+
+                // Group results
+                const mainSamples = data.results.filter(r => r.category === 'Main Sample');
+                const webSearch = data.results.filter(r => r.category !== 'Main Sample');
+
+                // Helper to render a section
+                const renderSection = (title, images, isOpen = false) => {
+                    if (images.length === 0) return;
+
+                    const details = document.createElement('details');
+                    if (isOpen) details.open = true;
+
+                    const summary = document.createElement('summary');
+                    summary.textContent = `${title} (${images.length})`;
+
+                    const content = document.createElement('div');
+                    content.className = 'details-content results-grid'; // Reuse grid layout
+
+                    images.forEach(result => {
+                        const card = document.createElement('div');
+                        card.className = 'result-card';
+                        card.innerHTML = `
+                            <div class="image-container">
+                                <img src="${result.image_url}" alt="${result.title}" loading="lazy">
+                            </div>
+                            <div class="result-info">
+                                <div class="result-title">${result.title || 'Untitled'}</div>
+                                <div class="result-meta">ID: ${result.pin_id || 'N/A'}</div>
+                            </div>
+                        `;
+                        content.appendChild(card);
+                    });
+
+                    details.appendChild(summary);
+                    details.appendChild(content);
+                    grid.appendChild(details);
+                };
+
+                renderSection('Main Samples (Provided)', mainSamples, true);
+                renderSection('Web Search Unified', webSearch, false);
+
+            } catch (error) {
+                grid.innerHTML = `<div class="error">Error loading gallery: ${error.message}</div>`;
+            }
         }
     </script>
 </body>

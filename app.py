@@ -99,7 +99,8 @@ def generate_pdf():
         
         # Generate PDF
         from backend_search import generate_mood_board_pdf
-        result = generate_mood_board_pdf(event_type, budget_range, color_theme)
+        selected_images = data.get('selected_images', [])
+        result = generate_mood_board_pdf(event_type, budget_range, color_theme, selected_images=selected_images)
         
         return jsonify(result)
         
@@ -531,6 +532,85 @@ def database_stats():
             'stats': stats
         })
         
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/local-search', methods=['POST'])
+def local_search():
+    """Search for images in the local downloaded_images directory."""
+    try:
+        data = request.get_json()
+        
+        event_type = data.get('event_type', '').lower()
+        budget_range = data.get('budget_range', '')
+        color_theme = data.get('color_theme', '') # Optional for now, can be used for filtering if metadata exists
+        
+        # Validate inputs
+        if not event_type or not budget_range:
+            return jsonify({'error': 'Event type and budget range are required'}), 400
+            
+        # Determine price category folder
+        if '3000-5000' in budget_range:
+            price_folder = 'Welcome_board_decor_(3000-5000)'
+        elif '5001-8000' in budget_range:
+            price_folder = 'Welcome_board_decor_(5001-8000)'
+        elif '8001-15000' in budget_range:
+            price_folder = 'Welcome_board_decor_(8001-15000)'
+        else:
+            price_folder = 'Welcome_board_decor_(other)'
+            
+        # Construct search path
+        # Look in both 'provided_sample' and 'user_selected' subdirectories
+        base_path = os.path.join('downloaded_images', price_folder, event_type.capitalize())
+        
+        results = []
+        
+        if os.path.exists(base_path):
+            import glob
+            # Find all images recursively
+            image_extensions = ['*.jpg', '*.jpeg', '*.png', '*.webp']
+            image_files = []
+            
+            for ext in image_extensions:
+                image_files.extend(glob.glob(os.path.join(base_path, '**', ext), recursive=True))
+                
+            for img_path in image_files:
+                # Normalize path separators
+                img_path = img_path.replace('\\', '/')
+                
+                # Try to load metadata if it exists
+                metadata_path = os.path.splitext(img_path)[0] + '.json'
+                metadata = {}
+                if os.path.exists(metadata_path):
+                    try:
+                        with open(metadata_path, 'r') as f:
+                            metadata = json.load(f)
+                    except:
+                        pass
+                
+                # Determine category based on path
+                category = 'Web Search Unified'
+                if 'provided_sample' in img_path:
+                    category = 'Main Sample'
+                
+                # Basic result object
+                result = {
+                    'image_url': f'/local-image?path={requests.utils.quote(img_path)}',
+                    'title': metadata.get('title', 'Untitled'),
+                    'description': metadata.get('description', ''),
+                    'source': 'local',
+                    'category': category,
+                    'pin_id': metadata.get('pin_id', ''),
+                    'local_path': img_path
+                }
+                results.append(result)
+                
+        return jsonify({
+            'success': True,
+            'results': results,
+            'total_count': len(results)
+        })
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

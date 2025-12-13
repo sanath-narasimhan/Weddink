@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +24,7 @@
             margin: 0 auto;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
@@ -182,7 +183,7 @@
             background: white;
             padding: 15px;
             border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .info-label {
@@ -207,7 +208,7 @@
             background: white;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
         }
 
@@ -292,13 +293,14 @@
             .form-row {
                 grid-template-columns: 1fr;
             }
-            
+
             .results-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -343,221 +345,173 @@
                         <option value="neutral">Neutral</option>
                         <option value="other">Other (Custom)</option>
                     </select>
-                    <input type="text" id="customColor" name="customColor" placeholder="Enter custom color theme" style="display: none; margin-top: 10px; width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 16px;">
+                    <input type="text" id="customColor" name="customColor" placeholder="Enter custom color theme"
+                        style="display: none; margin-top: 10px; width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 16px;">
                 </div>
 
                 <button type="submit" class="search-btn" id="searchBtn">
-                    🎨 Generate Mood Board
-                </button>
-            </form>
+                    <div class="form-group">
+                        <label>Event Type</label>
+                        <select id="eventType">
+                            <option value="engagement">Engagement</option>
+                            <option value="haldi">Haldi</option>
+                            <option value="mehendi">Mehendi</option>
+                            <option value="sangeet">Sangeet</option>
+                            <option value="wedding">Wedding</option>
+                            <option value="reception">Reception</option>
+                        </select>
+                    </div>
 
-            <div id="loading" class="loading" style="display: none;">
-                Searching for welcome boards...
-            </div>
+                    <div class="form-group">
+                        <label>Budget Range</label>
+                        <select id="budgetRange">
+                            <option value="3000-5000">₹3,000 - ₹5,000</option>
+                            <option value="5001-8000">₹5,001 - ₹8,000</option>
+                            <option value="8001-15000">₹8,001 - ₹15,000</option>
+                        </select>
+                    </div>
 
-            <div id="error" class="error" style="display: none;"></div>
+                    <div class="form-group">
+                        <label>Color Theme</label>
+                        <input type="text" id="colorTheme" placeholder="e.g., Royal Blue, Pastel Pink, Gold">
+                    </div>
+
+                    <button class="search-btn" onclick="findInspiration()">
+                        Find Inspiration
+                    </button>
         </div>
 
-        <div id="results" class="results-section">
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Finding the perfect designs for you...</p>
+        </div>
+
+        <div id="resultsArea" style="display: none;">
             <div class="results-header">
-                <h2>Search Results</h2>
-                <div class="search-info">
-                    <div class="info-item">
-                        <div class="info-label">Event Type</div>
-                        <div class="info-value" id="resultEventType"></div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Budget Range</div>
-                        <div class="info-value" id="resultBudgetRange"></div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Color Theme</div>
-                        <div class="info-value" id="resultColorTheme"></div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Total Results</div>
-                        <div class="info-value" id="resultTotalCount"></div>
-                    </div>
-                </div>
-                <div style="margin-top: 15px;">
-                    <div class="info-label">Search Query Used:</div>
-                    <div class="info-value" id="resultQuery"></div>
+                <h2>Select 3-5 images for your Mood Board</h2>
+                <div class="action-buttons">
+                    <button id="generatePdfBtn" class="download-btn" onclick="generateMoodBoard()" disabled>
+                        Generate Mood Board PDF (0 selected)
+                    </button>
                 </div>
             </div>
-
             <div id="resultsGrid" class="results-grid"></div>
         </div>
     </div>
 
-    <script>
-        // Handle custom color input
-        document.getElementById('colorTheme').addEventListener('change', function() {
-            const customColorInput = document.getElementById('customColor');
-            if (this.value === 'other') {
-                customColorInput.style.display = 'block';
-                customColorInput.required = true;
-            } else {
-                customColorInput.style.display = 'none';
-                customColorInput.required = false;
-            }
-        });
+    <!-- PDF Result Modal -->
+    <div id="pdfModal" class="modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
+        <div class="modal-content"
+            style="background: white; padding: 30px; border-radius: 15px; text-align: center; max-width: 500px;">
+            <h2 style="margin-bottom: 20px;">Mood Board Ready! 🎉</h2>
+            <p>Your personalized mood board has been generated.</p>
+            <div style="margin-top: 30px;">
+                <a id="downloadPdfLink" href="#" class="download-btn"
+                    style="text-decoration: none; display: inline-block;">Download PDF</a>
+                <button onclick="document.getElementById('pdfModal').style.display='none'" class="search-btn"
+                    style="background: #ccc; margin-left: 10px;">Close</button>
+            </div>
+        </div>
+    </div>
 
-        document.getElementById('searchForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
+    <script>
+        let selectedImages = new Set();
+        let currentResults = [];
+
+        async function findInspiration() {
             const eventType = document.getElementById('eventType').value;
             const budgetRange = document.getElementById('budgetRange').value;
             const colorTheme = document.getElementById('colorTheme').value;
-            const customColor = document.getElementById('customColor').value;
-            
-            // Use custom color if "other" is selected
-            const finalColorTheme = colorTheme === 'other' ? customColor : colorTheme;
-            
-            // Show loading
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('results').style.display = 'none';
-            document.getElementById('searchBtn').disabled = true;
-            
-            try {
-            const response = await fetch('/generate-pdf', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    event_type: eventType,
-                    budget_range: budgetRange,
-                    color_theme: finalColorTheme
-                })
-            });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.error || 'Mood board generation failed');
-                }
-                
-                // Display results
-                displayResults(data);
-                
-            } catch (error) {
-                document.getElementById('error').textContent = error.message;
-                document.getElementById('error').style.display = 'block';
-            } finally {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('searchBtn').disabled = false;
-            }
-        });
-        
-        function displayResults(data) {
-            console.log('Received data:', data); // Debug log
-            console.log('PDF generation check:', data.pdf_generation);
-            console.log('PDF success check:', data.pdf_generation && data.pdf_generation.success);
-            
-            // Handle PDF generation response format
-            const searchData = data.search_results || data;
-            
-            // Check if we have valid data
-            if (!searchData) {
-                showError('No data received from server');
+
+            if (!colorTheme) {
+                alert('Please enter a color theme');
                 return;
             }
-            
-            // Update header info with safe defaults
-            document.getElementById('resultEventType').textContent = searchData.event_type || 'Unknown';
-            document.getElementById('resultBudgetRange').textContent = searchData.budget_range || 'Unknown';
-            document.getElementById('resultColorTheme').textContent = searchData.color_theme || 'Unknown';
-            document.getElementById('resultTotalCount').textContent = searchData.total_count || 0;
-            document.getElementById('resultQuery').textContent = searchData.query || 'No query available';
-            
-            // Clear previous results
-            const resultsGrid = document.getElementById('resultsGrid');
-            resultsGrid.innerHTML = '';
-            
-            // Add PDF download section if available
-            console.log('PDF generation data:', data.pdf_generation);
-            if (data.pdf_generation && data.pdf_generation.success) {
-                console.log('Adding PDF download section');
-                const pdfSection = document.createElement('div');
-                pdfSection.className = 'pdf-section';
-                
-                // Extract filename from path (handle both / and \ separators)
-                const pdfPath = data.pdf_generation.pdf_path || '';
-                const filename = pdfPath.split(/[/\\]/).pop() || 'mood_board.pdf';
-                
-                pdfSection.innerHTML = `
-                    <div class="pdf-download">
-                        <h3>📄 Your Mood Board is Ready!</h3>
-                        <p>Download your personalized welcome board collection</p>
-                        <a href="/download-pdf/${filename}" class="download-btn">
-                            📥 Download PDF Mood Board
-                        </a>
-                        <p class="pdf-info">${data.pdf_generation.total_images || 0} images • ${Math.round((data.pdf_generation.file_size || 0) / 1024)}KB</p>
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultsArea').style.display = 'none';
+            document.getElementById('resultsGrid').innerHTML = '';
+            selectedImages.clear();
+            updateGenerateButton();
+
+            try {
+                const response = await fetch('/api/local-search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        event_type: eventType,
+                        budget_range: budgetRange,
+                        color_theme: colorTheme
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+
+                if (data.results.length === 0) {
+                    alert('No designs found for this criteria. Please try a different budget or event type.');
+                    return;
+                }
+
+                currentResults = data.results;
+                displayResults(data.results);
+                document.getElementById('resultsArea').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while fetching designs.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function displayResults(results) {
+            const grid = document.getElementById('resultsGrid');
+
+            results.forEach((result, index) => {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.onclick = (e) => toggleSelection(index, card);
+
+                card.innerHTML = `
+                    <div class="image-container">
+                        <img src="${result.image_url}" alt="${result.title}" loading="lazy">
+                        <div class="selection-overlay">
+                            <div class="checkmark">✓</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>${result.title || 'Design Idea'}</h3>
                     </div>
                 `;
-                resultsGrid.appendChild(pdfSection);
-            } else {
-                console.log('PDF generation not available or failed');
-                console.log('PDF generation object:', data.pdf_generation);
-            }
-            
-            // Add results by source - handle backend response format
-            const sources = [
-                { key: 'local', title: 'Local Similar Images', results: searchData.local_results || [] },
-                { key: 'google', title: 'Google Images', results: searchData.google_results || [] },
-                { key: 'pinterest', title: 'Pinterest', results: searchData.pinterest_results || [] }
-            ];
-            
-            // Show results section
-            document.getElementById('results').style.display = 'block';
-            
-            sources.forEach(source => {
-                if (source.results && source.results.length > 0) {
-                    // Add section title
-                    const sectionTitle = document.createElement('h3');
-                    sectionTitle.className = 'section-title';
-                    sectionTitle.textContent = `${source.title} (${source.results.length} found)`;
-                    resultsGrid.appendChild(sectionTitle);
-                    
-                    // Add results
-                    source.results.forEach(result => {
-                        const card = createResultCard(result, source.key);
-                        resultsGrid.appendChild(card);
-                    });
-                }
-            });
-            
-            // Show results section
-            document.getElementById('results').style.display = 'block';
-        }
-        
-        function createResultCard(result, source) {
-            const card = document.createElement('div');
-            card.className = 'result-card';
-            
-            let imageHtml = '';
-            
-            if (source === 'local' && result.image_path) {
-                // For local images, create a proxy endpoint
-                const localPath = result.image_path.replace(/\\/g, '/');
-                imageHtml = `<img src="/local-image?path=${encodeURIComponent(localPath)}" alt="Welcome Board" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                let imageHtml = '';
+
+                if (source === 'local' && result.image_path) {
+                    // For local images, create a proxy endpoint
+                    const localPath = result.image_path.replace(/\\/g, '/');
+                    imageHtml = `<img src="/local-image?path=${encodeURIComponent(localPath)}" alt="Welcome Board" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                            <div class="no-image" style="display: none;">Local Image</div>`;
-            } else if (source === 'google') {
-                // For Google, try to load with proxy
-                if (result.image_url) {
-                    const proxyUrl = `/proxy-image?url=${encodeURIComponent(result.image_url)}`;
-                    imageHtml = `<img src="${proxyUrl}" alt="Welcome Board" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                } else if (source === 'google') {
+                    // For Google, try to load with proxy
+                    if (result.image_url) {
+                        const proxyUrl = `/proxy-image?url=${encodeURIComponent(result.image_url)}`;
+                        imageHtml = `<img src="${proxyUrl}" alt="Welcome Board" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                <div class="no-image" style="display: none;">External Image</div>`;
-                } else {
-                    imageHtml = `<div class="no-image">External Image</div>`;
-                }
-            } else if (source === 'pinterest') {
-                // For Pinterest, try to show image if available, otherwise show placeholder
-                if (result.image_url && !result.image_url.includes('pinterest.com/pin/')) {
-                    // We have an actual image URL - use proxy
-                    const proxyUrl = `/proxy-image?url=${encodeURIComponent(result.image_url)}`;
-                    imageHtml = `<img src="${proxyUrl}" alt="Pinterest Pin" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    } else {
+                        imageHtml = `<div class="no-image">External Image</div>`;
+                    }
+                } else if (source === 'pinterest') {
+                    // For Pinterest, try to show image if available, otherwise show placeholder
+                    if (result.image_url && !result.image_url.includes('pinterest.com/pin/')) {
+                        // We have an actual image URL - use proxy
+                        const proxyUrl = `/proxy-image?url=${encodeURIComponent(result.image_url)}`;
+                        imageHtml = `<img src="${proxyUrl}" alt="Pinterest Pin" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                <div class="no-image pinterest-placeholder" style="display: none;">
                                    <div style="background: #e60023; color: white; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
                                        Pinterest Pin
@@ -568,9 +522,9 @@
                                        </a>
                                    </div>
                                </div>`;
-                } else {
-                    // Show placeholder with link
-                    imageHtml = `<div class="no-image pinterest-placeholder">
+                    } else {
+                        // Show placeholder with link
+                        imageHtml = `<div class="no-image pinterest-placeholder">
                                    <div style="background: #e60023; color: white; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
                                        Pinterest Pin
                                    </div>
@@ -580,29 +534,29 @@
                                        </a>
                                    </div>
                                </div>`;
+                    }
+                } else {
+                    imageHtml = `<div class="no-image">${source.toUpperCase()} Image</div>`;
                 }
-            } else {
-                imageHtml = `<div class="no-image">${source.toUpperCase()} Image</div>`;
-            }
-            
-            let title = result.title || 'Welcome Board';
-            if (source === 'local' && result.filename) {
-                title = result.filename.replace('.jpg', '').replace('provided_sample_', '');
-            }
-            
-            let meta = '';
-            if (source === 'local') {
-                if (result.similarity) {
-                    meta += `Similarity: ${(result.similarity * 100).toFixed(1)}%<br>`;
+
+                let title = result.title || 'Welcome Board';
+                if (source === 'local' && result.filename) {
+                    title = result.filename.replace('.jpg', '').replace('provided_sample_', '');
                 }
-                if (result.price_category) {
-                    meta += `Price: ${result.price_category}`;
+
+                let meta = '';
+                if (source === 'local') {
+                    if (result.similarity) {
+                        meta += `Similarity: ${(result.similarity * 100).toFixed(1)}%<br>`;
+                    }
+                    if (result.price_category) {
+                        meta += `Price: ${result.price_category}`;
+                    }
+                } else {
+                    meta = 'External source';
                 }
-            } else {
-                meta = 'External source';
-            }
-            
-            card.innerHTML = `
+
+                card.innerHTML = `
                 ${imageHtml}
                 <div class="result-info">
                     <div class="result-source ${source}">${source.toUpperCase()}</div>
@@ -610,9 +564,10 @@
                     <div class="result-meta">${meta}</div>
                 </div>
             `;
-            
-            return card;
-        }
+
+                return card;
+            }
     </script>
 </body>
+
 </html>
